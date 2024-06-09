@@ -1,66 +1,185 @@
 package org.example;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Iterator;
+import java.util.List;
 
-public class Lexer {
+public class Lexer  implements Iterable<Lexer.Token> {
+    private final String input;
+    private final List<Token> tokens;
+    private int current;
 
-    // Define token types using regular expressions
-    private static final String NUMBER = "\\d+";
-    private static final String ASSIGN = "=";
-    private static final String IDENTIFIER = "[a-zA-Z_][a-zA-Z0-9_]*";
-    private static final String WHITESPACE = "\\s+";
 
-    // Token class to store type and value of each token
-    public static class Token {
-        public final String type;
-        public final String value;
 
-        public Token(String type, String value) {
-            this.type = type;
-            this.value = value;
+    public Lexer(String input){
+        this.input= input;
+        this.tokens = new ArrayList<Token>();
+        this.current = 0;
+
+        tokenize();
+
+
+    }
+    private void tokenize(){
+        while(current< input.length()){
+            char ch = input.charAt(current);
+            switch(ch){
+                case ' ':
+                case '\t':
+                case '\n':
+                case '\r':
+                    current++;
+                    break;
+                case '=':
+                    tokens.add(new Token(TokenType.ASSIGMENT, "="));
+                    current++;
+
+                    break;
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                    tokens.add(new Token(TokenType.OPERATOR, Character.toString(ch)));
+                    current++;
+
+                    break;
+                case '"':
+                    tokens.add(new Token(TokenType.STRING, readString()));
+                    break;
+                case '%':
+                    tokens.add(new Token(TokenType.REFERENCES, readReference()));
+                default:
+                    if(isDigit(ch)){
+                        tokens.add(new Token(TokenType.NUMBER, readNumber()));
+                    }else if(isAlpha(ch)){
+                        String indentifier = readIndentifier();
+                        tokens.add(new Token(deriveTokenType(indentifier), indentifier));
+
+                    }else {
+                        throw  new LexerExeption("Unsupported character: " + ch);
+                    }
+
+
+            }
+        }
+
+    }
+
+    private TokenType deriveTokenType(String indentifier) {
+        switch(indentifier){
+            case "config":
+                return TokenType.CONFIG;
+            case "update":
+                return TokenType.UPDATE;
+                //...........
+            default:
+                return TokenType.IDENTIFIER;
+        }
+
+    }
+
+    private String readIndentifier() {
+        StringBuilder builder = new StringBuilder();
+        while(current <input.length() && isAlphaNumeric(input.charAt(current))){
+            builder.append(input.charAt(current));
+            current++;
+
+        }
+        return builder.toString();
+
+    }
+
+    private String readNumber() {
+
+      StringBuilder builder =  new StringBuilder();
+      while(current< input.length() && isDigit(input.charAt(current))){
+          builder.append(input.charAt(input.charAt(current)));
+          current++;
+      }
+          return builder.toString();
+
+
+    }
+
+
+    private String readReference() {
+        StringBuilder builder = new StringBuilder();
+        current++;
+
+        while (current < input.length() && isAlphaNumeric(input.charAt(current))) {
+            builder.append((input.charAt(current)));
+            current++;
+
+
+        }
+        return builder.toString();
+    }
+
+
+    private boolean isAlphaNumeric(char c ){
+        return isAlpha(c) | isDigit(c);
+
+    }
+
+    private boolean isAlpha(char c) {
+        return ('a' <= c && c  <='z') || ('A' <= c &&  c <='Z');
+    }
+
+    private boolean isDigit(char c){
+        return '0' <= c && c <='9';
+
+    }
+    private String readString() {
+        StringBuilder builder = new StringBuilder();
+        while(current< input.length() && input.charAt(current) != '"'){
+            builder.append((input.charAt(current)));
+            current++;
+
+
+
+        }
+        return builder.toString();
+
+    }
+
+    @Override
+    public Iterator<Token> iterator() {
+        return tokens.iterator();
+    }
+    //enum - enumeration
+
+    //TOKEN type and value
+
+    static class Token{
+        final TokenType type;
+        final String value;
+
+        Token(TokenType type, String value){
+            this.type=type;
+            this.value=value;
+
+
         }
 
         @Override
         public String toString() {
             return "Token{" +
-                    "type='" + type + '\'' +
+                    "type=" + type +
                     ", value='" + value + '\'' +
                     '}';
         }
+
+
+    }
+    enum TokenType{
+        CONFIG, UPDATE, COMPUTE, SHOW, CONFIGS, ASSIGMENT, STRING, NUMBER, OPERATOR, IDENTIFIER, REFERENCES
+
+
+
+
     }
 
-    // List to hold the tokens
-    public ArrayList<Token> tokenize(String source) {
-        ArrayList<Token> tokens = new ArrayList<>();
-        String patternString = String.format("(%s)|(%s)|(%s)|(%s)",
-                NUMBER, ASSIGN, IDENTIFIER, WHITESPACE);
 
-        Pattern pattern = Pattern.compile(patternString);
-        Matcher matcher = pattern.matcher(source);
 
-        while (matcher.find()) {
-            if (matcher.group(1) != null) {
-                tokens.add(new Token("NUMBER", matcher.group(1)));
-            } else if (matcher.group(2) != null) {
-                tokens.add(new Token("ASSIGN", matcher.group(2)));
-            } else if (matcher.group(3) != null) {
-                tokens.add(new Token("IDENTIFIER", matcher.group(3)));
-            } else if (matcher.group(4) != null) {
-                // Ignore whitespace
-            }
-        }
 
-        return tokens;
-    }
-
-    public static void main(String[] args) {
-        String inputScript = "CPU = 4\nMemory = 8192";
-        Lexer lexer = new Lexer();
-        ArrayList<Token> tokens = lexer.tokenize(inputScript);
-        for (Token token : tokens) {
-            System.out.println(token);
-        }
-    }
 }
