@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="68906439-f801-43e7-bf41-473c1182b3c4" name="Changes" comment=" ComputeConfigScript">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/LexerExeption.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/ASTNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BinaryOpNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/NumberNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Parser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/ParserException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Token.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Lexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/LexerCondition.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/LexerLoop.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -50,18 +53,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Lexer.executor": "Run",
-    "Application.LexerCondition.executor": "Run",
-    "Application.LexerLoop.executor": "Run",
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Lexer.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LexerCondition.executor&quot;: &quot;Run&quot;,
+    &quot;Application.LexerLoop.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.example" />
@@ -92,7 +95,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717808147215</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary=" ComputeConfigScript">
+      <option name="closed" value="true" />
+      <created>1717953521458</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1717953521458</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

@@ -1,13 +1,26 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class Lexer  implements Iterable<Lexer.Token> {
+public class Lexer  {
     private final String input;
     private final List<Token> tokens;
     private int current;
+    public static List<Token> getHardCodedTokens(){
+        return Arrays.asList(
+                new Token(Token.Type.NUMBER, "3"),
+                new Token(Token.Type.MULTIPLY, "*" ),
+                new Token(Token.Type.NUMBER, "5"),
+                new Token(Token.Type.MULTIPLY, "*"),
+                new Token(Token.Type.NUMBER, "10"),
+                new Token(Token.Type.MULTIPLY, "*"),
+                new Token(Token.Type.NUMBER, "4"));
+
+
+    }
 
 
 
@@ -31,7 +44,7 @@ public class Lexer  implements Iterable<Lexer.Token> {
                     current++;
                     break;
                 case '=':
-                    tokens.add(new Token(TokenType.ASSIGMENT, "="));
+                    tokens.add(new Token(Token.Type.ASSIGMENT, "="));
                     current++;
 
                     break;
@@ -39,18 +52,21 @@ public class Lexer  implements Iterable<Lexer.Token> {
                 case '-':
                 case '*':
                 case '/':
-                    tokens.add(new Token(TokenType.OPERATOR, Character.toString(ch)));
+                    tokens.add(new Token(Token.Type.OPERATOR, Character.toString(ch)));
                     current++;
 
                     break;
                 case '"':
-                    tokens.add(new Token(TokenType.STRING, readString()));
+                    tokens.add(new Token(Token.Type.STRING, readString()));
+                    current++; //only for strings
                     break;
                 case '%':
-                    tokens.add(new Token(TokenType.REFERENCES, readReference()));
-                default:
+                    tokens.add(new Token(Token.Type.REFERENCES, readReference()));
+                    break;
+
+                    default:
                     if(isDigit(ch)){
-                        tokens.add(new Token(TokenType.NUMBER, readNumber()));
+                        tokens.add(new Token(Token.Type.NUMBER, readNumber()));
                     }else if(isAlpha(ch)){
                         String indentifier = readIndentifier();
                         tokens.add(new Token(deriveTokenType(indentifier), indentifier));
@@ -65,16 +81,15 @@ public class Lexer  implements Iterable<Lexer.Token> {
 
     }
 
-    private TokenType deriveTokenType(String indentifier) {
-        switch(indentifier){
-            case "config":
-                return TokenType.CONFIG;
-            case "update":
-                return TokenType.UPDATE;
-                //...........
-            default:
-                return TokenType.IDENTIFIER;
-        }
+    public  Token.Type deriveTokenType(String indentifier) {
+        return switch (indentifier) {
+            case "config" -> Token.Type.CONFIG;
+            case "update" -> Token.Type.UPDATE;
+            case "compute" -> Token.Type.COMPUTE;
+            case "show" -> Token.Type.SHOW;
+            case "configs" -> Token.Type.CONFIGS;
+            default -> Token.Type.IDENTIFIER;
+        };
 
     }
 
@@ -122,7 +137,7 @@ public class Lexer  implements Iterable<Lexer.Token> {
     }
 
     private boolean isAlpha(char c) {
-        return ('a' <= c && c  <='z') || ('A' <= c &&  c <='Z');
+        return ('a' <= c && c  <='z') || ('A' <= c &&  c <='Z') || c == '_';
     }
 
     private boolean isDigit(char c){
@@ -135,14 +150,11 @@ public class Lexer  implements Iterable<Lexer.Token> {
             builder.append((input.charAt(current)));
             current++;
 
-
-
         }
         return builder.toString();
 
     }
 
-    @Override
     public Iterator<Token> iterator() {
         return tokens.iterator();
     }
@@ -150,36 +162,17 @@ public class Lexer  implements Iterable<Lexer.Token> {
 
     //TOKEN type and value
 
-    static class Token{
-        final TokenType type;
-        final String value;
-
-        Token(TokenType type, String value){
-            this.type=type;
-            this.value=value;
 
 
-        }
-
-        @Override
-        public String toString() {
-            return "Token{" +
-                    "type=" + type +
-                    ", value='" + value + '\'' +
-                    '}';
-        }
-
-
-    }
-    enum TokenType{
-        CONFIG, UPDATE, COMPUTE, SHOW, CONFIGS, ASSIGMENT, STRING, NUMBER, OPERATOR, IDENTIFIER, REFERENCES
-
-
+//        @Override
+//        public String toString() {
+//            return "Token{" +
+//                    "type=" + type +
+//                    ", value='" + value + '\'' +
+//                    '}';
+//        }
 
 
     }
 
 
-
-
-}
