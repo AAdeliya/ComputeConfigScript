@@ -1,6 +1,8 @@
 package org.example;
 
-import java.util.ArrayList;
+import org.example.ast.ASTNode;
+import org.example.ast.Token;
+
 import java.util.List;
 
 public class Main {
@@ -11,7 +13,11 @@ public class Main {
 //                update "num_users" = 200
 //                compute "result" = %num_users + %num_requests
 //                """;
-        List<Token>  tokens = Lexer.getHardCodedTokens();
+
+
+        Lexer lexer = new Lexer("3+5*(10-1); var x = 4-5; x=1");
+
+        List<Token>  tokens = lexer.tokenize();
         Parser parser = new Parser(tokens);
         ASTNode root = parser.parse();
 

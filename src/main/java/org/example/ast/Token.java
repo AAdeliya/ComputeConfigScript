@@ -1,15 +1,15 @@
-package org.example;
+package org.example.ast;
 
 public class Token {
     public enum Type{
-        NUMBER, MULTIPLY, DIVIDE, CONFIG, PLUS, MINUS, UPDATE, COMPUTE, SHOW, LPAREN, RPAREN, CONFIGS, ASSIGMENT, STRING, OPERATOR, IDENTIFIER, REFERENCES
+        NUMBER, VAR, ASSIGN, MULTIPLY, DIVIDE, CONFIG, PLUS, MINUS, UPDATE, COMPUTE, SHOW, LPAREN, RPAREN, LBRACE, RBRACE, SEMICOLON, CONFIGS, ASSIGMENT, STRING, OPERATOR, IDENTIFIER, REFERENCES
 
     }
 
     public final Type type;
     public final String value;
 
-    Token(Type type, String value) {
+    public Token(Type type, String value) {
         this.type = type;
         this.value = value;
     }

@@ -1,4 +1,7 @@
-package org.example;
+package org.example.ast;
+
+import org.example.ast.ASTNode;
+import org.example.ast.Token;
 
 public class NumberNode extends ASTNode {
     final int value;

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.ast;
 
 public class BinaryOpNode extends ASTNode {
     ASTNode left;

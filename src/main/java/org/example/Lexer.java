@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.ast.Token;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -37,7 +39,7 @@ public class Lexer  {
 
 
     }
-    private void tokenize(){
+    public List<Token> tokenize(){
         while(current< input.length()){
             char ch = input.charAt(current);
             switch(ch){
@@ -83,6 +85,7 @@ public class Lexer  {
             }
         }
 
+        return null;
     }
 
     public  Token.Type deriveTokenType(String indentifier) {
